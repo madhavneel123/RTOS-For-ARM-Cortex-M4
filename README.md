@@ -7,24 +7,13 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#introduction-to-operating-system">Introduction to Operating System</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#the-stack">The Stack</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -32,141 +21,171 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
 
-Use the `BLANK_README.md` to get started.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<!-- Introduction to Operating System -->
+# Introduction to Operating System
+Operating system is a resource manager. It controls the hardware peripherals and schedule task. Real time operating system is also an operating system with time costaints. For real time operating system not only execution of task is important but also time frame in which execution is completed. RTOS meets the deadline. RTOS performance metrics are of two types-
 
-### Built With
+1. Deadlines - Completion of task in specified amount of time
+2. Reliablity - Running of task in predicted way.
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+## The Stack
+Stack is Last in First out temporary storage. To create a stack block of ROM is allocated. Stack always operate on 32bit data. R13 is stack pointer which always point to top of the stack. Stack grows downward the memory as we push data onto it.
+Stack Operations
+1. PUSH - Saves values into the stack memory pointer by stack pointer (R13). First data is pushed into the stack and then SP is decremented. 
+2. POP - Retrive values from the stack memory pointer by stack pointer (R13). First SP is incremented and then data is pulled.
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+## Inside Microcontroller
+In ARM Cortex M4 architecture we have 
+1. 12 general purpose registers (R0 - R12)
+2. R13 - Stack Pointer - There are two SP. Main Stack Pointer (MSP) and Process Stack Pointer (PSP)
+3. R14 - Link Register - Used to store interm location of functions
+4. R15 - Program Counter - Both readable and writetable. Read from this register gives us address of current instruction + 4. Write into this register makes a branch instruction. 
+
+Special Register
+1. PSR
+2. PRIMASK
+3. FAULTMASK
+4. BASEPRI
+5. CONTROL
+
+### Stack Pointer
+1. MSP - It is often used in OS kernel. If you run an operating system use MSP to manipulate and access the kernel. You also use MSP in interrupt service routine. MSP is always used in handler mode. By default we use MSP
+2. PSP - It is used in application task. 
+
+Access Instruction
+1. MSR
+2. MRS
+
+### Exclusive Access Instructions
+1. Semaphore
+2. Mutex
+
+### SYSTICK
+System Tick or SYSTICK is a core device for all ARM Cortex M4 controllers which is used to create periodic timers. It is 24 bit down counter that runs at bus clock frequency. SYSTICK registers
+1. SYSTICK Control and Status Registers
+2. SYSTICK Reload Value Registers
+3. SYSTICK Current Value Registers
+4. SYSTICK Priority Registers
+
+Steps for SYSTICK configuration
+1. Disable SYSTICK
+2. Set Period
+3. Clear Initial value
+4. Set SYSTICK priority
+5. Enable SYSTICK
+6. Set Clock Source
+7. Enable Interrupt
+
+### Boot Sequence of ARM Cortex M4
+When we press reset button boot sequnce begins. We can generate software reset as well. Set all registers to their reset values. Then process detects boot mode. Now fetch MSP from address 0x00000000. Now fetch PC from 0x00000004
+1. The first 32 bit value in the first address is the value to initialize the MSP register.
+2. The next 32 bit value is the value to initialize PC. It consists of address of Reset Handler.
+3. Reset handler is a subroutine written in assembly and it constisn entry point of the program. In reset handler there is call to main().  
+4. In startup.s file we have reset handler. It is a subroutine. "LDR R0, =__main" tells the processor to start from main function.
+5. When processor is booted it reads two pins boot 0 and boot 1 to determine boot mode. It tells the processor where to boot from - Flash memory, SRAM or any other memory location. 
+6. After reading boot 0 and boot 1 pins processor then fetches the MSP.
+7. LSB of PC should always be 1 in ARM Cortex M4 controllers because of thumb mode.
+
+### Threads
+Threads consists of set of registes, stack and program to execute. Suppose we have four task to execute. Then each task is a thread which consists of their own registers, stack and program to execute. But we have only one regsiter bank how can we handle four register bank to represent four thread. Here thread scheduler comes into picture. If we have four cores then we have enough resources to handle four threads in parallel. Threads are of three types
+1. Timed Threads - It include threads which donnot run frequently. Such as thread that only runs when there is a problem. This type of threads are called Sporadic threads. Another type of timed threads are periodic threads which runs in a fixed time interval. We also have aperiodic threads that execute frequently but execution cannot be anticipated. 
+2. Event triggered Threads - One type is flag thread which runs only when flag is high or low. Another one in input triggered which runs only when input is available. We also have output triggered thread which runs when output is available
+3. Main Threads - They are executed when nothing is left to execute. 
+
+#### Thread Control Block (TCB)
+TCB is a Data Structure containing information private to each thread. 
+Must have
+1. Pointer to the stack. 
+2. Pointer to the next thread
+3. Variable to hold thread status
+4. Variable to hold thread ID
+5. Variable to hold thread period
+6. Variable to hold thread burst time
+7. Variable to hold thread priority
+
+### Scheduler
+Scheduler is used to schedule threads based on algorithm. Thread has three state
+1. RUNNING - Currently beign executed by the CPU
+2. READY - It is ready to be executed by the CPU
+3. BLOCKED - It is waiting for an event
+
+At a time only one thread is in RUNNING state. Other threads are either in READY or BLOCKED state. 
+
+PROCESS - Execution of program instance
+THREAD - Execution of task
+THreads are part of process. Process has higher contex switch overhead
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+#### Classification of Schedulers
+1. Static vs Dynamic
+2. Preemptive vs Non-Preemptive
 
+#### Scheduling Criteria
+1. Throughput - Task completed per unit time
+2. Turnaround time - Time for each task to complete
+3. Response time - Time from request to first response of task
+4. CPU Utilization - Percentage of available CPU cycles begin used
+5. Wait time - Time each task waits in ready queue
 
-<!-- GETTING STARTED -->
-## Getting Started
+#### Scheduling Algorithm Optimization
+1. Maximize Throughput
+2. Minimize Turnaround time
+3. Minimize Response time
+4. Maximize CPU Utilization
+5. Minimize Scheduling Overheads
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+#### Application Information
+1. Number tasks
+2. Resource requirements of each task
+3. Release time for each task
+4. Deadlines for each task
 
-### Prerequisites
+#### Platform Specific Information
+1. Maximum Context Switching time
+2. Maximum Interrupt Service Latency
+3. Maximum Communication Delay
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### First Come First Serve Scheduler
+1. Task are executed on first come first serve basis
+2. Non - Preemptive
+3. Its Implementation is based on FIFO queue
+4. Poor in Performance as average wait time is high
 
-### Installation
+### Round Robin Scheduler
+1. Preemptive
+2. Employs time sharing, gives each thread a timeslice (quanta)
+3. When timeslice runs out OS prempts the thread
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+#### Quanta
+If qunta is very large Round Robin scheduler works similar to FCFS. If qunata is very small lots of context switching and more time is spent. It drains lots of CPU time. 
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+#### Weighted Round Robin Scheduler
+1. Preemptive
+2. Employs time sharing, gives each thread a timeslice (quanta)
+3. If qunata runs out OS preempts the thread
+4. Threads have unequal weights so that threads with greater weight have more time qunata.
+5. Can be done using varying qunata (Multiply weight with qunata) or by varying frequncy (call important task frequntly with same qunata)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+#### Context Switch
+It means switching from one thread to another and it invovles saving the state oof current thread into memory, restoring the state of new thread from memory and lauching the new thread. 
 
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
+#### Kernel
+Scheduler is one of the component of kernel. Scheduler is responsible for selection of thread to run. Kernel however are responsible for scheduler, booting, inter thread communication and synchronization. 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+ **greatly appreciated**.
 
 
 
