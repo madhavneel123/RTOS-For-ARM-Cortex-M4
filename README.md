@@ -1,1 +1,2 @@
-# RTOS-For-ARM-Cortex-M4
+Operating System
+Operating System is a resource Manager
