@@ -1,0 +1,28 @@
+02:16:17 **** Build of configuration Debug for project RRA4 ****
+make -j4 all 
+arm-none-eabi-gcc "../Src/OSKernel.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/OSKernel.d" -MT"Src/OSKernel.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/OSKernel.o"
+arm-none-eabi-gcc "../Src/led.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/led.d" -MT"Src/led.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/led.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/timebase.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/timebase.d" -MT"Src/timebase.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/timebase.o"
+../Src/timebase.c: In function 'GetTick':
+../Src/timebase.c:32:1: warning: control reaches end of non-void function [-Wreturn-type]
+   32 | }
+      | ^
+arm-none-eabi-gcc "../Src/uart.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/uart.d" -MT"Src/uart.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/uart.o"
+../Src/uart.c:89:13: warning: 'UartSet_BR' defined but not used [-Wunused-function]
+   89 | static void UartSet_BR(uint32_t periph_clk, uint32_t baudrate)
+      |             ^~~~~~~~~~
+arm-none-eabi-gcc -o "RRA4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\salil madhav\Desktop\Projects\NTOS\RRA4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RRA4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RRA4.elf
+ 
+arm-none-eabi-size   RRA4.elf 
+arm-none-eabi-objdump -h -S  RRA4.elf  > "RRA4.list"
+   text	   data	    bss	    dec	    hex	filename
+   5820	    112	   1592	   7524	   1d64	RRA4.elf
+Finished building: default.size.stdout
+ 
+Finished building: RRA4.list
+ 
+
+02:16:18 Build Finished. 0 errors, 2 warnings. (took 1s.835ms)
+

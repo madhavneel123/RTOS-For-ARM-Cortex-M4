@@ -1,0 +1,8 @@
+#include "timebase.h"
+#include "stm32f4xx.h"
+
+void TimeBase_Init(void)
+{
+	//SysTick_Type ->CTRL = 0
+	SysTick -> LOAD = 15999999;
+}

@@ -1,0 +1,46 @@
+#include "timebase.h"
+#include "stm32f4xx.h"
+
+volatile uint32_t g_curr_tick;
+volatile uint32_t g_curr_tick_p;
+volatile uint32_t tick_freq = 1;
+
+void TickIncrement(void)
+{
+	g_curr_tick += tick_freq;
+}
+
+void TimeBase_Init(void)
+{
+	/*
+	 * Reload the timer with number of cycles per second
+	 */
+	SysTick -> LOAD = 15999999;
+
+	/*
+	 * Clear SysTick current value register
+	 */
+	SysTick -> VAL = 0;
+
+	/*
+	 *Select Internal Clock source
+	 */
+	SysTick -> CTRL |= (1U << 2);
+
+	/*
+	 * Enable Interrupt
+	 */
+	SysTick -> CTRL |= (1U << 1);
+
+	/*
+	 * Enable SysTick
+	 */
+	SysTick -> CTRL |= (1U << 0);
+
+	__enable_irq();
+}
+
+void SysTick_Handler(void)
+{
+	TickIncrement();
+}

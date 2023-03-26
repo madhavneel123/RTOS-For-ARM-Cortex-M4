@@ -1,0 +1,28 @@
+12:18:39 **** Incremental Build of configuration Debug for project Timebase ****
+make -j4 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Include" -include"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Include" -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/led.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/led.d" -MT"Src/led.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/led.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DSTM32F446xx -c -I../Inc -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
+cc1.exe: fatal error: C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Include: No such file or directory
+compilation terminated.
+In file included from ../Inc/led.h:11,
+                 from ../Src/led.c:10:
+C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Startup/subdir.mk:19: Startup/startup_stm32f446retx.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:34: Src/led.o] Error 1
+In file included from ../Inc/led.h:11,
+                 from ../Src/main.c:3:
+C:/Users/salil madhav/Desktop/NTOS/Timebase/Driver/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:34: Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+
+12:18:39 Build Failed. 6 errors, 0 warnings. (took 610ms)
+

@@ -1,0 +1,10 @@
+01:18:10 **** Incremental Build of configuration Debug for project ManualContextSwitching3 ****
+make -j4 all 
+arm-none-eabi-size   ManualContextSwitching3.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5820	    112	   1592	   7524	   1d64	ManualContextSwitching3.elf
+Finished building: default.size.stdout
+ 
+
+01:18:10 Build Finished. 0 errors, 0 warnings. (took 296ms)
+

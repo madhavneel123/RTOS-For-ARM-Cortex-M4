@@ -1,0 +1,26 @@
+/*
+ * led.c
+ *
+ *  Created on: Feb 15, 2023
+ *      Author: Neel Madhav
+ */
+
+#include "led.h"
+
+void led_init()
+{
+	//Enable clock to led port (PORT A)
+
+	//Set LED pin as output pin
+
+}
+
+void led_on(void)
+{
+	//Set led pin to high
+}
+
+void led_off(void)
+{
+	//Set led pin low
+}

@@ -1,0 +1,38 @@
+12:04:20 **** Incremental Build of configuration Debug for project time_base ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/timebase.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/timebase.d" -MT"Core/Src/timebase.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/timebase.o"
+arm-none-eabi-gcc "../Core/Src/uart.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/uart.d" -MT"Core/Src/uart.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/uart.o"
+../Core/Src/timebase.c: In function 'get_tick':
+../Core/Src/timebase.c:43:2: warning: implicit declaration of function '__disable_irq' [-Wimplicit-function-declaration]
+   43 |  __disable_irq();
+      |  ^~~~~~~~~~~~~
+../Core/Src/timebase.c:45:2: warning: implicit declaration of function '__enable_irq' [-Wimplicit-function-declaration]
+   45 |  __enable_irq();
+      |  ^~~~~~~~~~~~
+../Core/Src/timebase.c: In function 'timebase_init':
+../Core/Src/timebase.c:52:2: error: 'SysTick_Type' undeclared (first use in this function)
+   52 |  SysTick_Type -> LOAD = ONE_SEC_LOAD -1;
+      |  ^~~~~~~~~~~~
+../Core/Src/timebase.c:52:2: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/timebase.c:55:2: error: 'SysTick' undeclared (first use in this function)
+   55 |  SysTick -> VAL = 0;
+      |  ^~~~~~~
+../Core/Src/timebase.c:57:20: error: 'CTRL_CLCKSSRC' undeclared (first use in this function); did you mean 'CTRL_CLCKSRC'?
+   57 |  SysTick -> CTRL = CTRL_CLCKSSRC;
+      |                    ^~~~~~~~~~~~~
+      |                    CTRL_CLCKSRC
+../Core/Src/timebase.c:61:21: error: 'CTRL_ENABLE' undeclared (first use in this function); did you mean 'CTRL_EN'?
+   61 |  SysTick -> CTRL |= CTRL_ENABLE;
+      |                     ^~~~~~~~~~~
+      |                     CTRL_EN
+make: *** [Core/Src/subdir.mk:43: Core/Src/timebase.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/uart.c:10:10: fatal error: ../Core/Inc/stdint.h": Invalid argument
+   10 | #include <stdint.h">
+      |          ^~~~~~~~~~~
+compilation terminated.
+make: *** [Core/Src/subdir.mk:43: Core/Src/uart.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+
+12:04:21 Build Failed. 8 errors, 2 warnings. (took 625ms)
+

@@ -1,0 +1,3 @@
+../Src/led.c:6:6:LED_Init	4	static
+../Src/led.c:20:6:LED_On	4	static
+../Src/led.c:29:6:LED_Off	4	static
