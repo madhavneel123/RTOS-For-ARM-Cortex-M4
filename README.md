@@ -178,7 +178,12 @@ If qunta is very large Round Robin scheduler works similar to FCFS. If qunata is
 5. Can be done using varying qunata (Multiply weight with qunata) or by varying frequncy (call important task frequntly with same qunata)
 
 #### Context Switch
-It means switching from one thread to another and it invovles saving the state oof current thread into memory, restoring the state of new thread from memory and lauching the new thread. 
+It means switching from one thread to another and it invovles saving the state oof current thread into memory, restoring the state of new thread from memory and lauching the new thread. When an exception occurs certain registers needs to be preserved into stack. Stack is memory in RAM that is used to this purpose. When processor takes an exception the processor pushes information onto the current stack. This operation is referred to as stacking. and structure of eight data words is refered as the stack frame. 
+1. Exception Frame without Floating point storage - R0, R1, R2, R3, R12, LR, PC, xPSR
+2. Exception Frame with Floating point storagr - R0, R1, R2, R3, R12, LR, PC, xPSR, S0-S15, FPSCR
+
+PC value always points to next address to executed. 
+R0- R7 are called low registers and R8- R12 are called high registers. 
 
 #### Kernel
 Scheduler is one of the component of kernel. Scheduler is responsible for selection of thread to run. Kernel however are responsible for scheduler, booting, inter thread communication and synchronization. 
