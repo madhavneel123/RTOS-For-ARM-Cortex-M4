@@ -8,9 +8,9 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#introduction-to-operating-system">Introduction to Operating System</a>
+    <li><a href="#basics-of-arm-cortex-m4">Basics of ARM Cortex M4</a>
       <ul>
-        <li><a href="#the-stack">The Stack</a></li>
+        <li><a href="#programmers-model">Programmers Model</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
