@@ -76,6 +76,12 @@ There are three types of RESET in M4 -
 
 After reset and before the processor starts executing the program the M4 processor read first two words from the memory. The begining of memory space contains vector table and first word is MSP. Second word is staring address of reset hanlder. After these two values are read by the processor the processor sets up the MSP and the PC with these values. Set up of MSP is necessary as NMI or hard faults can occur shrtly after reset and MSP has to PUSH status of processor to the stack before the exception handling. The stack operation in M4 are based on full decending stack.
 
+Reset handler has these operations
+1. Initialize data section
+2. Initialize BSS section
+3. Initailize C std library
+4. main()
+
 ### NVIC
 It is one of the periheral of ARM Cortex M4. It is used to control/manage 240 interrupts. Using NVIC you can enable/disable/pend various interrupts and read status of active and pending interrupts.
 1. Interrupt Set Enable Registers - Write 1 to set enable
