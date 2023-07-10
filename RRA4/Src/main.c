@@ -1,81 +1,47 @@
-#include "led.h"
-#include "uart.h"
 #include <stdio.h>
-#include "timebase.h"
+#include "OSKernel.h"
 
-void run(void);
-void stop(void);
-void open(void);
-void close(void);
+#define QUANTA			2  		/*10msec quanta value*/
 
-void run(void)
-{
-	UartWrite('R');
+typedef uint32_t TaskProfiler;
 
-}
+TaskProfiler TaskProfiler0,TaskProfiler1,TaskProfiler2;
 
-void stop(void)
-{
-	UartWrite('S');
-}
 
-void open(void)
-{
-	UartWrite('O');
-}
 
-void close(void)
-{
-	UartWrite('C');
-}
-void Mmain(void)
+void Task0(void)
 {
 	while(1)
 	{
-		run();
-		Delay(1);
-		stop();
-		Delay(1);
+		TaskProfiler0++;
 	}
 }
 
-void Vmain(void)
+void Task1(void)
 {
 	while(1)
 	{
-		open();
-		Delay(1);
-		close();
-		Delay(1);
+		TaskProfiler1++;
 	}
 }
 
-
-
-
+void Task2(void)
+{
+	while(1)
+	{
+		TaskProfiler2++;
+	}
+}
 
 int main(void)
 {
-	uint32_t flag = 0;
-	LED_Init();
-	UART_Tx_Init();
+	/*Initialize Kernel*/
+	OSKernelInit();
 
-	printf("Hello World");
+	/*Add Threads*/
+	OSKernelAddThreads(&Task0, &Task1, &Task2);
 
-	UartWrite(5);
-	TimeBase_Init();
-	if(flag)
-		Mmain();
-	else
-		Vmain();
-	while(1)
-	{
-		UartWrite(5);
-		printf("Hello World");
-		Delay(1);
-		LED_On();
-		Delay(1);
-		LED_Off();
-	}
+	/*Set Round Robin Time Quanta*/
+	OSKernelLaunch(QUANTA);
 
 }

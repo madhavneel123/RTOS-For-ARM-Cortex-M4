@@ -1,0 +1,8 @@
+C:/Users/salil madhav/Desktop/Projects/NTOS/LedDriver0/Inc/CMSIS/Include/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+../Src/OSKernel.c:31:6:OSKernelStackInit	16	static
+../Src/OSKernel.c:62:9:OSKernelAddThreads	24	static,ignoring_inline_asm
+../Src/OSKernel.c:102:6:OSKernelInit	4	static
+../Src/OSKernel.c:107:6:OSKernelLaunch	16	static
+../Src/OSKernel.c:137:29:SysTick_Handler	0	static,ignoring_inline_asm
+../Src/OSKernel.c:178:6:OSSchedulerLaunch	4	static,ignoring_inline_asm
+../Src/OSKernel.c:214:6:OSThreadYield	4	static
