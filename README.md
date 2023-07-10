@@ -30,6 +30,55 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Basics of ARM Cortex M4-->
+# Basics of ARM Cortex M4
+The cortex M4 processor is based on the ARMv7E-M architecture. 
+
+## Programmers Model
+M4 processor has two opeartion states and two modes. In addition processor hava privileged and unprivileged access levels. Privileged access level can access all resources in the processor. In some text it is also referred as User mode and kernel mode.
+
+### Operation States
+
+1. Debug State - When processor is halted it enters debug state. It can be halted if it hits a breakpoint
+2. Thumb State - If processor is in running mode it is in thumb state. There is no ARM state in M4 as it was in ARM7TDMI.
+
+### Operation Modes
+
+1. Handler Mode - When executing ISR. In handler mode processor is always on privileged access level
+2. Thread Mode - Execution in norma; application code. Processor is either in privileged access level or unprivileged access level. This is controlled by special register called CONTROL
+
+Software can switch from privileged thread mode to unprivileged thread mode but vice versa is not possible. If it needs to be done then processor has to use exception mechanism to handle the switch.
+
+### Registers
+ARM Cortex M4 architecture has 16 register namely R0-R12, R13 (SP), R14(LR), R15(PC). 
+1. R0-R7 are called low registers. Many 16 bit instructions can only access low registers
+R8-R12 are high registers. It can be used with 32 bit instructions and few 16bit instructions like MOV.
+Initial value of R0-R12 is undefined
+
+2. R13 (SP) it is used to access stack memory using PUSH and POP operation. There are two Stack pointers - Main Stack Pointer (MSP) and Process Stack Pointer(PSP). MSP is default stack pointer. PSP can be used only the thread mode. Selection of stack pointer is done using CONTROL register.
+3. R14 (LR) It is used to hold return address when calling a function or subroutine. During return of subroutine LR value is copied to PC.
+4. R15 (PC) Writing to PC results in branch operation. LSB of PC is always set to 0 to denote thumb state.
+5. xPSR (Program Status Register)
+6. PRIMASK It is 1 bit wide interrupt mask register. When set it blocks all exceptions aprt from NMI and hard fault exceptions. It raises current exception priority to 0.
+7. FAULTMASK It is similar to PRIMASK but it also blocks hard fault exception. It blocks current exception priority to -1.
+8. BASEPRI It allows more flexible interrupt masking. It can be of 3-7 bits length (depends of vendor). If it is set to 0 then BASEPRI is disabled. If it is set to a non zero value it masks all interrupt with same or lower priority level.
+9. CONTROL It is used for selection of MSP or PSP, Privileged or unprivileged access levels in thread mode, Floating point unit used or unused
+
+MSR or MRS instrutions are used to change values of special register
+
+## Exception and Interrupts
+Exceptions are events that causes changes to program flow. When exception happens processor suspends the current executing task and executes a part of program called exception handler. After execution of exception handler is completed the processor resumes normal program execution. 
+
+### Reset Sequence
+There are three types of RESET in M4 - 
+1. Power on Reset - Reset everyting in the microcontroller.This includes the processor and its debug support components and peripherals
+2. System Reset - Reset just the processor and peripherals but not debug support components of the processor
+3. Processor Reset - Reset processor only.
+
+After reset and before the processor starts executing the program the M4 processor read first two words from the memory. The begining of memory space contains vector table and first word is MSP. Second word is staring address of reset hanlder. After these two values are read by the processor the processor sets up the MSP and the PC with these values. Set up of MSP is necessary as NMI or hard faults can occur shrtly after reset and MSP has to PUSH status of processor to the stack before the exception handling. The stack operation in M4 are based on full decending stack.
+
+### NVIC
+It is one of the periheral of ARM Cortex M4. It is used to control 240 interrupts. Using NVIC you can 
 
 <!-- Introduction to Operating System -->
 # Introduction to Operating System
