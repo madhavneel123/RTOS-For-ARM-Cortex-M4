@@ -161,7 +161,13 @@ Special Register
 
 ### Stack Pointer
 1. MSP - It is often used in OS kernel. If you run an operating system use MSP to manipulate and access the kernel. You also use MSP in interrupt service routine. MSP is always used in handler mode. By default we use MSP
-2. PSP - It is used in application task. 
+2. PSP - It is used in application task.
+
+Four types of Stack :-
+1. Fully Ascending - first increment SP and then PUSH value. SP will point to the data after PUSH 
+2. Fully Descending - first decrement SP and then PUSH value. SP will point to the data after PUSH
+3. Empty Acending - first PUSH data and then increment SP. SP will point to the location where new data will be pushed
+4. Empty Decending - first PUSH data and then decrement SP. SP will point to locaion where new data will be pushed.
 
 Access Instruction
 1. MSR
