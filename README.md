@@ -22,8 +22,7 @@
 
 <!-- ABOUT THE PROJECT -->
 # About The Project
-
-
+This project is developed as replica of Free RTOS for ARM Cortex M4 based architecture. Scheduler in this project will we smaller in size compared to free RTOS and will provide most frequenctly used features of RTOS. Aim of this project is to use this project for simple RTOS based applications
 
 
 
@@ -78,7 +77,54 @@ There are three types of RESET in M4 -
 After reset and before the processor starts executing the program the M4 processor read first two words from the memory. The begining of memory space contains vector table and first word is MSP. Second word is staring address of reset hanlder. After these two values are read by the processor the processor sets up the MSP and the PC with these values. Set up of MSP is necessary as NMI or hard faults can occur shrtly after reset and MSP has to PUSH status of processor to the stack before the exception handling. The stack operation in M4 are based on full decending stack.
 
 ### NVIC
-It is one of the periheral of ARM Cortex M4. It is used to control 240 interrupts. Using NVIC you can 
+It is one of the periheral of ARM Cortex M4. It is used to control/manage 240 interrupts. Using NVIC you can enable/disable/pend various interrupts and read status of active and pending interrupts.
+1. Interrupt Set Enable Registers - Write 1 to set enable
+2. Interrupt Clear Enable Register - Write 1 to clear enable
+3. Interrupt Set Pending Register - Write 1 to set pending status
+4. Interrupt Clear Pending Register - Write 1 to clear pending status
+5. Interrupt Active Bit Register - Active status bit (Read Only)
+6. Interrupt Priority Registers - Interrupt Priority level for each interrupt (8bit wide)
+7. Software Trigger Interrupt Register - Write an interrupt number to set its pending status
+
+### Preempt Priority and Sub Priorty
+What if two interrupts of same priorty hits the processor at same time? The sub priority value of interrupts will be checked. 
+1. Preempt Priorty - When processor is running interrupt handler and interrupt occurs first preempt priorty is compared and interrupt with higher preempt priority is allowed to run
+2. Sub Priority - When Preempt priorty is same then sub priorty is checked. Interrupt with higher sub priorty is allowed to run.
+
+### Exit Sequence
+1. Bit 2 (Return Stack) PSP or MSP.
+2. Bit 3 (Return Mode) Thread or handler
+
+
+## SVC and Pend SV
+### Supervisory Call (SVC) 
+SVC is an exception to get system level services (like accessing device drivers and peripherals) from the kernel to OS. For example -  unpriviledged user task can trigger SVC exception to switch to priviledged access level to get access to UART to display data on LCD. SVC is always used along with a number which can be used to idnetify request type. SVC handler executes right after SVC instruction unless higher priorty ISR is executing. Exception number 11
+1. SVC #0x04 to be written in assembly to initiate SVC
+2. SVC number has to be extracted using PC.
+3. The value of PC is stored in stack as a part of exception entry sequence
+
+### Pendable Service (PendSV)
+It is used to carry out context switch between two or more task when no other excpetions are active in a system. Exception number 14.
+1. Suppose task A is running
+2. Time quanta is elapsed and systick exception takes place.
+3. In Systick ISR context is switched and now task B is running
+4. During execution of task B before time quanta is elpased an interrupt is triggered.
+5. As task B is running in thread mode it will be interrupted by Interrupt and ISR will execute
+6. During execution of ISR time quanta gets elapsed. This will trigger Systick exception.
+7. Now Systick ISR will run. It change the context so that task C can run. But previous ISR is not completed so we are forcing processor to run in thread mode during unfinshed interrupt. This will trigger usuage fault
+
+This issue can be solved using PendSV
+1. Context swithing will be done in Pend SV ISR not in systick ISR. Systick ISR will just trigger PendSV interrupt.
+2. As PendSV is the lowest priorty interrupt any interrupt will have higher priority than pend SV.
+3. This will make sure that context can only be switched if all ISR is completed its execution
+4. Also, if higher priorty ISR is executing and it is taking lots of time to execute then starvation can take place and lower priorty interrupts may not get execution time.
+5. In this case higher priorty task can be divided into two parts. One with time critical part and other with time consuming part. Time cosuming part can be done in pend SV. This will make sure that any lower priroty interrupt is trigger it can get execution time.
+
+## Exclusive Access (MUTEX)
+This is used for atomic operation of MUTEX. ARM Cortex M4 gives this as hardware feature. These instructions are atomic.
+1. LDREX - Exclusive Read
+2. STREX - Exclusive Write
+
 
 <!-- Introduction to Operating System -->
 # Introduction to Operating System
